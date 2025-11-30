@@ -1,6 +1,6 @@
 <template>
   <div class="beian-info" :class="{ 'light-theme': dark }">
-   <view class="beian-info-wrapper">
+   <div class="beian-info-wrapper">
      <!-- 备案信息行 -->
     <div class="beian-content">
       <!-- ICP备案号 -->
@@ -36,7 +36,7 @@
         1148926496@qq.com
       </span>
     </div>
-   </view>
+   </div>
     
     <!-- 版权信息行 -->
     <div class="copyright">

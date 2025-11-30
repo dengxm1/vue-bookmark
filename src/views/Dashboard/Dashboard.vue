@@ -25,9 +25,9 @@
             添加书签
           </el-button>
         </div>
-        <view class="empty-state" v-if="bookmarkStore.bookmarksCount != 0 && bookmarkList.length == 0">
+        <div class="empty-state" v-if="bookmarkStore.bookmarksCount != 0 && bookmarkList.length == 0">
           <el-empty description="暂无数据" />
-        </view>
+        </div>
         <!-- 书签网格 -->
         <div v-else class="bookmarks-grid">
           <BookmarkCard

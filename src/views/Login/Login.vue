@@ -1,6 +1,35 @@
 <template>
   <div class="login-container">
-    <div>
+    <div class="header-container">
+       <el-menu
+            mode="horizontal"
+            background-color="transparent"
+            text-color="#333"
+            active-text-color="#409EFF"
+            class="nav-menu"
+            :ellipsis="false"
+            :router="false"
+            @select="handleMenuSelect"
+          >
+          <el-sub-menu index="1">
+            <template #title>
+              <div class="menu-title">
+               <img :src="githubImg" alt="GitHub" class="github-img"/>
+                <span>项目仓库</span>
+            </div>
+            </template>
+            <el-menu-item index="external-vue" >
+              <el-icon><Monitor /></el-icon>
+              <span>前端项目 (Vue 3)</span>
+            </el-menu-item>
+            <el-menu-item index="external-springboot">
+              <el-icon><Cpu /></el-icon>
+              <span>后端项目 (SpringBoot)</span>
+            </el-menu-item>
+          </el-sub-menu>
+      </el-menu>
+    </div>
+    <div class="login-form">
       <div class="app-title">
         <h1>智能书签收藏夹</h1>
       </div>
@@ -47,10 +76,9 @@
           没有账号？<a @click="$router.push('/register')">立即注册</a>
         </div>
       </el-card>
-      
-      <!-- 备案信息 -->
-      <BeianInfo></BeianInfo>
     </div>
+          <!-- 备案信息 -->
+      <BeianInfo></BeianInfo>
   </div>
 </template>
 
@@ -60,6 +88,14 @@ import { useRouter } from 'vue-router';
 import { ElMessage } from 'element-plus';
 import { login } from '@/api/auth';
 import { useAuthStore } from '@/stores/auth'
+import githubImg from '@/assets/github.png';
+import {
+  Collection,
+  Monitor,
+  Cpu,
+  SetUp,
+  Mic
+} from '@element-plus/icons-vue';
 
 const router = useRouter();
 const loading = ref(false);
@@ -97,7 +133,7 @@ onMounted(() => {
       }
         // 延迟设置默认值，确保在清空之后
       setTimeout(() => {
-        form.username = '全栈大佬';
+        form.username = 'admin';
         form.password = '123456';
       }, 100);
     });
@@ -121,20 +157,121 @@ const handleLogin = async () => {
     loading.value = false;
   }
 };
+
+const handleMenuSelect = (index: string) => {
+  switch (index) {
+    case 'external-vue':
+      window.open('https://github.com/dengxm1/vue-bookmark', '_blank');
+      break;
+    case 'external-springboot':
+      window.open('https://github.com/dengxm1/springboot-bookmark', '_blank');
+      break;
+  }
+  
+  // 移除激活状态
+  removeActiveState();
+};
+
+const removeActiveState = () => {
+  // 延迟执行，确保点击完成
+  setTimeout(() => {
+    const activeItems = document.querySelectorAll('.el-menu-item.is-active');
+    activeItems.forEach(item => {
+      item.classList.remove('is-active');
+    });
+    
+    const activeSubmenus = document.querySelectorAll('.el-sub-menu.is-active');
+    activeSubmenus.forEach(item => {
+      item.classList.remove('is-active');
+    });
+  }, 100);
+};
+
 </script>
 
 <style scoped>
+.header-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 0 20px;
+  height: 60px;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+}
+
+.nav-menu {
+  border: none;
+  background: transparent !important;
+  display: flex;
+  align-items: center;
+}
+
+.menu-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+:deep(.el-menu--horizontal) {
+  border-bottom: none !important;
+}
+
+:deep(.el-menu--horizontal > .el-menu-item),
+:deep(.el-menu--horizontal > .el-sub-menu .el-sub-menu__title) {
+  height: 50px;
+  line-height: 50px;
+  border-bottom: 2px solid transparent;
+}
+
+:deep(.el-menu--horizontal > .el-menu-item.is-active),
+:deep(.el-menu--horizontal > .el-sub-menu.is-active .el-sub-menu__title) {
+  border-bottom-color: #409EFF;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .header-container {
+    padding: 0 10px;
+  }
+  
+  .menu-title span {
+    display: none;
+  }
+}
+
 .app-title {
   margin-bottom: 30px;
   text-align: center;
 }
-.login-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background: #f5f7fa;
-  position: relative;
+
+.login-form{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.github-button{
+  border: none;
+}
+.header-container{
+ display:flex;
+ align-items: center;
+ padding: 20px;
+ justify-content: end;
+}
+
+.github-img{
+  width: 32px;
+  height: 32px;
+}
+.github-text{
+  font-size: 16px;
+  margin-left:8px;
+}
+.el-icon--right{
+  color: #333333;
+  font-size: 16px;
 }
 
 .login-card {
