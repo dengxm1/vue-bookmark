@@ -1,6 +1,6 @@
 <template>
   <div class="login-container">
-    <div class="header-container">
+    <!-- <div class="header-container">
        <el-menu
             mode="horizontal"
             background-color="transparent"
@@ -28,7 +28,7 @@
             </el-menu-item>
           </el-sub-menu>
       </el-menu>
-    </div>
+    </div> -->
     <div class="login-form">
       <div class="app-title">
         <h1>智能书签收藏夹</h1>
